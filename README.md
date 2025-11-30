@@ -6,72 +6,71 @@ El objetivo principal es demostrar el desacoplamiento de componentes y el uso de
 
 ## 🎯 Objetivos del Ejercicio
 
-1. **Aplicar TDD:** Escribir las pruebas antes que el código funcional (Ciclo Red-Green-Refactor).
+1. **Aplicar TDD:** Escribir las pruebas antes que el código funcional (Ciclo *Red-Green-Refactor*).
 2. **Simular Dependencias:** Utilizar **Mockito** para aislar el `ServicioDeRegistro` de la dependencia externa `Notificador`.
-3. **Inyección de Dependencias:** Diseñar componentes que reciben sus colaboradores en lugar de instanciarlos internamente.
+3. **Inyección de Dependencias:** Diseñar componentes que reciben sus colaboradores en lugar de instanciarlos internamente, facilitando la testabilidad.
 
 ## 🏗️ Arquitectura y Diseño
 
-El sistema sigue un diseño de bajo acoplamiento mediante inversión de dependencias:
+El sistema sigue un diseño de bajo acoplamiento mediante el principio de inversión de dependencias.
 
-```mermaid
-classDiagram
-    class ServicioDeRegistro {
-        +registrar(Usuario usuario)
-    }
-    class Notificador {
-        <<interface>>
-        +enviar(String mensaje, Usuario usuario)
-    }
-    class Usuario {
-        -String nombre
-    }
+### Componentes del Sistema:
 
-Notificador (Interface): Contrato abstracto para el envío de notificaciones.
+- **`ServicioDeRegistro` (Clase)**: 
+  Es el componente central. Contiene la lógica de negocio y coordina el proceso. Depende de la interfaz `Notificador`, no de una implementación concreta.
+  
+- **`Notificador` (Interface)**: 
+  Define el contrato abstracto para el envío de notificaciones (método `enviar`). Al ser una interfaz, permite crear *Mocks* fácilmente durante las pruebas para simular el envío de correos sin necesidad de un servidor real.
+  
+- **`Usuario` (Clase)**: 
+  Objeto de dominio simple (POJO) que transporta la información del usuario (nombre, datos) a través del sistema.
 
-Usuario: Modelo de datos simple (POJO).
+## 🛠️ Stack Tecnológico
 
-🛠️ Stack Tecnológico
-Java 17: Lenguaje principal.
+- **Java 17**: Lenguaje de programación.
+- **Maven**: Gestión de dependencias y automatización de la construcción.
+- **JUnit 5**: Framework estándar para pruebas unitarias en Java.
+- **Mockito**: Framework para la creación de objetos simulados (mocks) y verificación de comportamientos (verify).
 
-Maven: Gestión de dependencias.
+## 🧪 Ejecución de Pruebas
 
-JUnit 5: Framework de pruebas unitarias.
+El proyecto cuenta con una cobertura de pruebas centrada en el comportamiento (`Behavior verification`).
 
-Mockito: Framework para creación de Mocks y verificación de comportamientos.
-
-🧪 Ejecución de Pruebas
-El proyecto cuenta con una Suite de pruebas que verifica tanto la lógica de negocio como la interacción entre componentes.
-
-Comando Maven (Terminal)
-Bash
-
+### Opción 1: Desde la terminal (Maven)
+Ejecuta el siguiente comando en la raíz del proyecto para correr todas las pruebas:
+```bash
 mvn test
-Escenario de Prueba Principal (ServicioDeRegistroTest)
-La prueba valida que:
+Opción 2: Desde IntelliJ IDEA
+Navega a la carpeta src/test/java.
 
-Al llamar a registrar(usuario)...
+Haz clic derecho sobre SuiteRegistro (o ServicioDeRegistroTest).
 
-El servicio invoca correctamente al método enviar() del mock de Notificador.
+Selecciona "Run 'SuiteRegistro'".
 
-Se verifica que los parámetros pasados al mock sean los esperados.
+¿Qué se está probando?
+La prueba principal (ServicioDeRegistroTest) valida el siguiente escenario:
+
+"Cuando se registra un usuario, el sistema debe invocar al método enviar del notificador exactamente una vez con el mensaje de bienvenida correcto."
 
 📂 Estructura del Proyecto
 Plaintext
 
-src
-├── main
-│   └── java/com/bootcamp/registro
-│       ├── Notificador.java        (Interfaz)
-│       ├── ServicioDeRegistro.java (Lógica)
-│       └── Usuario.java            (Modelo)
-└── test
-    └── java/com/bootcamp/registro
-        ├── ServicioDeRegistroTest.java (Test con Mockito)
-        └── SuiteRegistro.java          (Suite de ejecución)
+SistemaRegistro
+├── src
+│   ├── main
+│   │   └── java/com/bootcamp/registro
+│   │       ├── Notificador.java        (Contrato)
+│   │       ├── ServicioDeRegistro.java (Lógica)
+│   │       └── Usuario.java            (Modelo)
+│   │
+│   └── test
+│       └── java/com/bootcamp/registro
+│           ├── ServicioDeRegistroTest.java (Test con Mocks)
+│           └── SuiteRegistro.java          (Agrupador de tests)
+│
+├── pom.xml                (Dependencias: JUnit 5, Mockito)
+└── .gitignore             (Exclusiones de git)
+✒️ Autores
+[Luis Alfredo Fiedler Fiedler] - Desarrollador Trainee - Bootcamp Fullstack Java
 
-✒️ Autor
-Luis Alfredo Fiedler Fiedler - Desarrollador en formación
-
-
-```
+Proyecto realizado con fines educativos para el Módulo 4: Fundamentos de Java.
