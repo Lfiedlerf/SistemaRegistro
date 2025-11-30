@@ -26,7 +26,6 @@ classDiagram
     class Usuario {
         -String nombre
     }
-    ```
 
 Notificador (Interface): Contrato abstracto para el envío de notificaciones.
 
@@ -75,4 +74,4 @@ src
 Luis Alfredo Fiedler Fiedler - Desarrollador en formación
 
 
----
+```
