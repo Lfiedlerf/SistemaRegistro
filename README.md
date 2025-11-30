@@ -29,6 +29,10 @@ classDiagram
 
     ServicioDeRegistro ..> Notificador : usa (dependencia)
     ServicioDeRegistro ..> Usuario : procesa
+<<<<<<< HEAD
+=======
+```
+>>>>>>> d321ebf (docs: agregar documentación del proyecto y exclusiones de git)
 ServicioDeRegistro: Contiene la lógica de negocio.
 
 Notificador (Interface): Contrato abstracto para el envío de notificaciones.
